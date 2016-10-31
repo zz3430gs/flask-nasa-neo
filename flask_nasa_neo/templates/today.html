@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h3>Approaches Today</h3>
+    <p>Click on a row to see more details.</p>
+    <table id="neo-table" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Diameter Min (ft)</th>
+                <th>Diameter Max (ft)</th>
+                <th>Potentially Hazardous</th>
+                <th>Velocity (mph)</th>
+                <th>Distance (miles)</th>
+                <th>Orbiting Body</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Diameter Min (ft)</th>
+                <th>Diameter Max (ft)</th>
+                <th>Potentially Hazardous</th>
+                <th>Velocity (mph)</th>
+                <th>Distance (miles)</th>
+                <th>Orbiting Body</th>
+            </tr>
+        </tfoot>
+        <tbody>
+        {% for neo in neos %}
+            <tr class="neo-row" id="{{ neo.id }}">
+                <td>{{ neo.id }}</td>
+                <td>{{ neo.name }}</td>
+                <td>{{ neo.diameter_min }}</td>
+                <td>{{ neo.diameter_max }}</td>
+                <td>{{ neo.hazardous }}</td>
+                <td>{{ neo.approaches[0].velocity }}</td>
+                <td>{{ neo.approaches[0].distance }}</td>
+                <td>{{ neo.approaches[0].orbiting_body }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            $('#neo-table').DataTable();
+
+            $('.neo-row').click(function (row) {
+                var neoId = $(row.currentTarget).attr('id');
+                location.href = '/details/' + neoId;
+            });
+        });
+    </script>
+{% endblock %}
